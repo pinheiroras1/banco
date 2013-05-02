@@ -10,7 +10,7 @@ import org.junit.Test;
 public class testeBanco {
 
 	@Test
-	public void test() {
+	public void testContaSimples() {
 		Cliente cliente = new Cliente("61732494304","Pinheiro");
 		assertEquals("Pinheiro", cliente.getNome());
 		cliente.setCpf("111");

@@ -16,7 +16,7 @@ public class ContaDAO {
 	final String insert = "insert into conta (titular,saldo,tipo,limite) values (?,?,?,?)";
 	final String byId   = "select * from conta where id = ?";
 	final String deleteTitular = "delete from conta where titular = ?";
-	
+	final String update = "update conta set limite=? where titular = ? and id = ?";
 	
 	public ContaDAO(){
 		connection = new ConnectionFactory().getConnection();
@@ -42,13 +42,13 @@ public class ContaDAO {
 		}
 	}
 	
-	public Conta byId(int id){
+	public ContaCorrente byId(int id){
 		try {
 			PreparedStatement stms = connection.prepareStatement(byId);
 			stms.setInt(1, id);
 			ResultSet rs = stms.executeQuery();
 			rs.next();
-			Conta c = new Conta();
+			ContaCorrente c = new ContaCorrente(0);
 			c.setId(rs.getInt("id"));
 			c.setTitular(rs.getInt("titular"));
 			c.setSaldo(rs.getDouble("saldo"));
@@ -59,7 +59,6 @@ public class ContaDAO {
 			rs.close();
 			stms.close();
 			return c;
-			
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}	
@@ -77,6 +76,18 @@ public class ContaDAO {
 		
 		
 	}
-	
+
+	public void update(ContaCorrente conta) {
+		try {
+			PreparedStatement smts = connection.prepareStatement(update);
+			smts.setDouble(1,conta.getLimite());
+			smts.setInt(2,conta.getTitular());
+			smts.setInt(3, conta.getNumero());
+			smts.execute();
+			smts.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 }

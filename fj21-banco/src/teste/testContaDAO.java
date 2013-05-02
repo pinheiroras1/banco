@@ -37,7 +37,7 @@ public class testContaDAO {
 		assertNotNull(new ConnectionFactory().getConnection());
 	}
 	
-	//@Test
+	@Test
 	public void testAddContaCorrente(){
 		cc.setTitular(1);
 		cc.setSaldo(500);
@@ -45,26 +45,34 @@ public class testContaDAO {
 		dao.add(cc);
 	}
 	
-	//@Test
+	@Test
 	public void testAddContaPoupanca(){
 		cp.setTitular(2);
 		cp.setSaldo(400);
 		dao.add(cp);
 	}
 	
-	//@Test
+	@Test
 	public void testRemove(){
-		cc.setTitular(1);
+		cc.setTitular(2);
 		dao.remove(cc);
 	}
 	
 	@Test
 	public void testbyIdContaCorrente(){
-		cc = (ContaCorrente) dao.byId(6);
-		assertEquals(2,cc.getTitular());
+		cc = dao.byId(7);
+		assertEquals(1,cc.getTitular());
 		assertEquals(cc.CONTA_CORRENTE,cc.getTipo());
+		assertEquals(100, cc.getLimite(),00001);
 	}
 	
-	
+	@Test
+	public void testAtualizaContaCorrente(){
+		cc.setTitular(1);
+		cc.setLimite(200);
+		cc.setId(7);
+		dao.update(cc);
+		cc = dao.byId(7);
+		assertEquals(200, cc.getLimite(),00001);
+	}
 }
-
